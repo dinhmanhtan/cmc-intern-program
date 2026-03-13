@@ -1,6 +1,6 @@
 # 📝 Bài Tập Về Nhà - Sessions 5-7 (Day 3)
 
-**Deadline:** Trước ngày thứ 7  
+**Deadline:** Trước ngày thứ 7 tuần sau
 **Cách nộp:** Push lên Git repository cá nhân tại branch homework. Mời dinhmanhtan (dmtangtnd@gmail.com) vào project. Tiếp tục code ở nhánh homework. Tạo pull request từ branch homework vào main. Set reviewer là dinhmanhtan  
 **Note**: Project có thể viết bằng ngôn ngữ khác không bắt buộc phải dùng Go. Nếu sử dụng ngôn ngữ khác cần mô tả cách cài đặt và chạy project
 
