@@ -1045,7 +1045,9 @@ script: |
 # Make a change and push
 git add .
 git commit -m "Test auto deploy"
-git push origin main
+git push origin test-deploy
+
+# Create pull request from test-deploy to homework then merge it
 
 # Watch GitHub Actions
 # Check deployment on server
