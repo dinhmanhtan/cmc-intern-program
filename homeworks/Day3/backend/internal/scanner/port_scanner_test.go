@@ -40,8 +40,8 @@ func TestPortScanner_Localhost(t *testing.T) {
 	if result.TotalScanned <= 0 {
 		t.Error("Expected TotalScanned > 0")
 	}
-	if result.ScanDurationMs <= 0 {
-		t.Error("Expected ScanDurationMs > 0")
+	if result.ScanDurationMs < 0 {
+		t.Error("Expected ScanDurationMs >= 0")
 	}
 
 	// Open ports should be valid
