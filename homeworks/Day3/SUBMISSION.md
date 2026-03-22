@@ -31,19 +31,13 @@ Files thêm mới:
 
 ### Screenshots
 
-**[Ảnh 1] IP Scan result** - `GET /scan-jobs/{id}/results` sau khi scan IP:
-
-<!-- Chụp output JSON có: ip_address, geolocation (country, city, isp), asn (number, name) -->
+**[Ảnh 1] IP Scan result:**
 ![IP Scan Result](screenshots/bai1-ip-scan-result.png)
 
-**[Ảnh 2] Port Scan result** - `GET /scan-jobs/{id}/results` sau khi port scan localhost:
-
-<!-- Chụp output JSON có: open_ports (port, service), scan_duration_ms, total_scanned -->
+**[Ảnh 2] Port Scan result:**
 ![Port Scan Result](screenshots/bai1-port-scan-result.png)
 
-**[Ảnh 3] Safety check** - Port scan bị từ chối với public IP:
-
-<!-- Chụp curl response: {"error":"unauthorized: only private/localhost IPs allowed"} -->
+**[Ảnh 3] Safety check - Port scan bị từ chối với public IP:**
 ![Port Scan Safety Check](screenshots/bai1-safety-check.png)
 
 ---
@@ -59,9 +53,10 @@ Files thêm mới:
 
 ### Screenshots
 
-**[Ảnh 4] go test output** - Tất cả tests PASS:
+**[Ảnh 4a] Unit Tests - Model & Scanner:**
+![Unit Tests Model](screenshots/bai2-unit-tests-model.png)
 
-<!-- Chụp toàn bộ terminal output có PASS và 3 dòng "ok mini-asm/internal/..." -->
+**[Ảnh 4b] Unit Tests - All PASS:**
 ![Unit Tests Pass](screenshots/bai2-unit-tests-pass.png)
 
 ---
@@ -75,13 +70,9 @@ Files thêm mới:
 ### Screenshots
 
 **[Ảnh 5] Danh sách assets trên Frontend:**
-
-<!-- Chụp browser http://localhost:5173 hiển thị danh sách assets có data -->
 ![Frontend Asset List](screenshots/bai3-frontend-assets.png)
 
 **[Ảnh 6] Kết quả scan trên Frontend:**
-
-<!-- Chụp browser hiển thị scan results (DNS/WHOIS/...) -->
 ![Frontend Scan Results](screenshots/bai3-frontend-scan-results.png)
 
 ---
@@ -96,13 +87,9 @@ Trigger: push vào branch `homework`, paths `homeworks/Day3/**`
 ### Screenshots
 
 **[Ảnh 7] GitHub Actions - All jobs green:**
-
-<!-- Chụp tab Actions trên GitHub, tất cả 6 jobs có dấu tick xanh -->
 ![CI All Green](screenshots/bai4-ci-all-green.png)
 
-**[Ảnh 8] Security scan output (Gosec hoặc Trivy):**
-
-<!-- Chụp log chi tiết của 1 security job -->
+**[Ảnh 8] Security scan output:**
 ![Security Scan Output](screenshots/bai4-security-scan.png)
 
 ---
@@ -115,18 +102,12 @@ Stack: PostgreSQL 15 (7432) + Go Backend (8080) + Nginx Frontend (3000)
 ### Screenshots
 
 **[Ảnh 9] docker compose ps - All services running:**
-
-<!-- Chụp output "docker compose ps" với 3 services trạng thái healthy/running -->
 ![Docker Compose PS](screenshots/bai5-docker-compose-ps.png)
 
 **[Ảnh 10] Backend health check:**
-
-<!-- Chụp curl http://localhost:8080/health response {"status":"ok",...} -->
 ![Backend Health Check](screenshots/bai5-health-check.png)
 
 **[Ảnh 11] Frontend ở port 3000 (từ Docker):**
-
-<!-- Chụp browser http://localhost:3000 -->
 ![Frontend Docker](screenshots/bai5-frontend-docker.png)
 
 ---
@@ -144,11 +125,7 @@ File: `internal/handler/export_handler.go`
 ### Screenshots
 
 **[Ảnh 12] Export CSV:**
-
-<!-- Chụp terminal: curl http://localhost:8080/assets/export?format=csv ra nội dung CSV -->
 ![Export CSV](screenshots/bai6-export-csv.png)
 
 **[Ảnh 13] Export JSON:**
-
-<!-- Chụp terminal: curl http://localhost:8080/assets/export?format=json ra JSON với exported_at, total, data -->
 ![Export JSON](screenshots/bai6-export-json.png)
