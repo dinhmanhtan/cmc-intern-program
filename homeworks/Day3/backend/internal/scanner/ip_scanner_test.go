@@ -11,6 +11,9 @@ import (
 // Note: This test makes a real HTTP call to ip-api.com
 // In production, use a mock HTTP client
 func TestIPScanner_ValidIP(t *testing.T) {
+	if testing.Short() {
+		t.Skip("Skipping network integration test in CI (-short flag)")
+	}
 	scanner := NewIPScanner()
 
 	asset := &model.Asset{
