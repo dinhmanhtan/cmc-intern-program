@@ -1,8 +1,8 @@
-# 📝 Bài Tập Về Nhà - Sessions 1-3
+# 📝 Bài Tập Về Nhà - Sessions 1-2
 
 **Deadline:** Trước ngày thứ 3  
 **Cách nộp:** Push lên Git repository cá nhân tại branch homework. Mời dinhmanhtan (dmtangtnd@gmail.com) vào project. Tạo pull request từ branch homework vào main. Set reviewer là dinhmanhtan  
-**Note**: Project có thể viết bằng ngôn ngữ khác không bắt buộc phải dùng Go. Nếu sử dụng ngôn ngữ khác cần mô tả cách cài đặt và chạy project
+**Note**: Project có thể viết bằng ngôn ngữ khác, không bắt buộc phải dùng Go. Nếu sử dụng ngôn ngữ khác cần mô tả cách cài đặt và chạy project.
 
 ---
 
@@ -15,8 +15,8 @@
   - [1.2 Count Assets by Filter](#12-count-assets-by-filter)
 - [Bài 2: Batch Create Assets (25 điểm)](#bài-2-batch-create-assets-25-điểm)
 - [Bài 3: Batch Delete Assets (20 điểm)](#bài-3-batch-delete-assets-20-điểm)
-- [Bài 4: Database Connection Retry (25 điểm) ⭐](#bài-4-database-connection-retry-25-điểm-)
-- [Bài 5: Database Health Check (15 điểm)](#bài-5-database-health-check-15-điểm)
+- [Bài 4: Concurrent-safe Create (25 điểm) ⭐](#bài-4-concurrent-safe-create-25-điểm-)
+- [Bài 5: In-memory Health Check (15 điểm)](#bài-5-in-memory-health-check-15-điểm)
 - [Bài 6: Pagination & Filtering (15 điểm) - BONUS 🌟](#bài-6-pagination--filtering-15-điểm---bonus-)
 - [Bài 7: Search by Name (10 điểm) - BONUS 🌟](#bài-7-search-by-name-10-điểm---bonus-)
 - [📊 Chấm Điểm](#-chấm-điểm)
@@ -28,10 +28,11 @@
 
 ## Yêu Cầu Chung
 
-- ✅ Code phải chạy được không có lỗi
-- ✅ Follow Clean Architecture như đã học
-- ✅ Có error handling đầy đủ
-- ✅ Test được bằng curl hoặc Postman
+- ✅ Code phải chạy được, không có lỗi.
+- ✅ Follow Clean Architecture như đã học (handler → service → storage → model).
+- ✅ Dùng **in-memory storage** (không dùng database cho Day 1).
+- ✅ Có error handling đầy đủ.
+- ✅ Test được bằng curl hoặc Postman.
 
 ---
 
@@ -51,20 +52,20 @@
 - [x] Bài 1: Statistics APIs
 - [x] Bài 2: Batch Create
 - [x] Bài 3: Batch Delete
-- [x] Bài 4: Connection Retry
-- [x] Bài 5: Health Check
+- [x] Bài 4: Concurrent-safe Create
+- [x] Bài 5: In-memory Health Check
 - [ ] Bài 6: Pagination (Bonus)
 - [ ] Bài 7: Search (Bonus)
 ```
 
-Mỗi bài cần 1 file Test screenshots hoặc command outputs chứng minh
-File này đặt trong thư mục [homeworks/submissions](../submissions/)
+Mỗi bài cần 1 file test screenshots hoặc command outputs chứng minh.  
+File này đặt trong thư mục [homeworks/submissions](../submissions/).
 
 ---
 
 ## Bài 1: Statistics APIs (20 điểm)
 
-**Yêu cầu:** Implement API để lấy thống kê về assets
+**Yêu cầu:** Implement API để lấy thống kê về assets từ in-memory storage.
 
 ### 1.1 Get Assets Statistics
 
@@ -120,7 +121,7 @@ curl "http://localhost:8080/assets/count?type=domain&status=active"
 
 ## Bài 2: Batch Create Assets (25 điểm)
 
-**Yêu cầu:** Tạo nhiều assets cùng lúc trong 1 transaction
+**Yêu cầu:** Tạo nhiều assets cùng lúc trong 1 request.
 
 ### API Specification
 
@@ -145,10 +146,12 @@ curl "http://localhost:8080/assets/count?type=domain&status=active"
 
 ### Yêu cầu kỹ thuật:
 
-- Sử dụng **database transaction** (all or nothing)
-- Nếu 1 asset validation fail → rollback tất cả
-- Limit tối đa 100 assets/request
-- Validate từng asset trước khi insert
+- Mô phỏng nguyên tắc **all or nothing** trong memory:
+  - Validate toàn bộ list trước.
+  - Chỉ insert khi tất cả items đều hợp lệ.
+- Nếu 1 asset validation fail → không insert asset nào.
+- Limit tối đa 100 assets/request.
+- Validate từng asset trước khi insert.
 
 **Test:**
 
@@ -163,7 +166,7 @@ curl -X POST http://localhost:8080/assets/batch \
     ]
   }'
 
-# Error case (invalid type) - should rollback all
+# Error case (invalid type) - should create none
 curl -X POST http://localhost:8080/assets/batch \
   -H "Content-Type: application/json" \
   -d '{
@@ -179,7 +182,7 @@ curl -X POST http://localhost:8080/assets/batch \
 
 ## Bài 3: Batch Delete Assets (20 điểm)
 
-**Yêu cầu:** Xóa nhiều assets cùng lúc
+**Yêu cầu:** Xóa nhiều assets cùng lúc.
 
 ### API Specification
 
@@ -195,9 +198,9 @@ curl -X POST http://localhost:8080/assets/batch \
 
 ### Behavior:
 
-- Xóa tất cả IDs hợp lệ
-- Bỏ qua IDs không tồn tại (không trả lỗi)
-- Return số lượng đã xóa và không tìm thấy
+- Xóa tất cả IDs hợp lệ.
+- Bỏ qua IDs không tồn tại (không trả lỗi).
+- Return số lượng đã xóa và không tìm thấy.
 
 **Test:**
 
@@ -224,91 +227,87 @@ curl http://localhost:8080/assets/$ID1
 
 ---
 
-## Bài 4: Database Connection Retry (25 điểm) ⭐
+## Bài 4: Concurrent-safe Create (25 điểm) ⭐
 
-**Yêu cầu:** Server phải tự động retry khi connect DB thất bại
+**Yêu cầu:** Đảm bảo in-memory storage an toàn khi nhiều request tạo asset cùng lúc.
 
 ### Specification:
 
-- Retry tối đa **5 lần**
-- Exponential backoff: **1s → 2s → 4s → 8s → 16s**
-- Log rõ ràng từng attempt
-- Nếu hết 5 lần vẫn fail → exit với error message
+- Dùng `sync.RWMutex` (hoặc cơ chế lock tương đương).
+- Không bị race condition khi gọi concurrent create.
+- Không tạo trùng ID.
+- Server vẫn phản hồi ổn định khi có burst request.
 
-### Expected Logs:
+### Gợi ý test nhanh:
 
+```bash
+# Bắn 20 request create song song
+for i in $(seq 1 20); do
+  curl -s -X POST http://localhost:8080/assets \
+    -H "Content-Type: application/json" \
+    -d "{\"name\":\"concurrent-$i.com\",\"type\":\"domain\"}" &
+done
+wait
+
+# Kiểm tra tổng số lượng
+curl http://localhost:8080/assets/count
 ```
-🔄 Database connection attempt 1/5...
-⚠️  Connection failed: connection refused. Retrying in 1s...
-🔄 Database connection attempt 2/5...
-⚠️  Connection failed: connection refused. Retrying in 2s...
-🔄 Database connection attempt 3/5...
-✅ Database connected successfully!
-```
 
-### Hints:
+### Tiêu chí đạt:
 
-- Tạo file `internal/database/retry.go`
-- Function: `ConnectWithRetry(dsn string, maxRetries int) (*sql.DB, error)`
-- Exponential backoff: `time.Sleep(time.Duration(1<<uint(attempt-1)) * time.Second)`
+- Không crash server.
+- Không data corruption.
+- Kết quả count phù hợp với số request hợp lệ.
 
 ---
 
-## Bài 5: Database Health Check (15 điểm)
+## Bài 5: In-memory Health Check (15 điểm)
 
-**Yêu cầu:** Nâng cấp `/health` endpoint với thông tin database
+**Yêu cầu:** Nâng cấp `/health` endpoint để phản ánh trạng thái ứng dụng với storage in-memory.
 
 ### API Specification
 
 - **Endpoint:** `GET /health`
-- **Response:**
-  - 200 OK (nếu DB connected)
-  - 503 Service Unavailable (nếu DB down)
+- **Response:** 200 OK
 
   ```json
   {
     "status": "ok",
-    "database": {
-      "status": "connected",
-      "open_connections": 2,
-      "in_use": 0,
-      "idle": 2,
-      "max_open": 25
+    "storage": {
+      "type": "in-memory",
+      "asset_count": 42
     },
+    "uptime_seconds": 3600,
     "timestamp": "2026-03-06T10:00:00Z"
   }
   ```
 
 ### Implementation hints:
 
-- Update `HealthHandler` để nhận `*sql.DB`
-- Dùng `db.Ping()` để check connection
-- Dùng `db.Stats()` để lấy connection pool info
+- `HealthHandler` có thể nhận thêm service/storage để lấy `asset_count`.
+- Track thời điểm app start để tính `uptime_seconds`.
+- Trả 200 khi server hoạt động bình thường.
 
 **Test:**
 
 ```bash
-# Normal operation
+# Health check
 curl http://localhost:8080/health | jq
 
-# Stop database
-docker-compose stop db
-sleep 2
-curl http://localhost:8080/health
-# Expected: 503, status="degraded", database.status="disconnected"
+# Create assets rồi check lại
+curl -X POST http://localhost:8080/assets \
+  -H "Content-Type: application/json" \
+  -d '{"name":"health-test.com","type":"domain"}'
 
-# Restart database
-docker-compose start db
-sleep 2
-curl http://localhost:8080/health
-# Expected: 200, status="ok", database.status="connected"
+curl http://localhost:8080/health | jq
+# Expected: storage.asset_count tăng lên
 ```
 
 ---
 
 ## Bài 6: Pagination & Filtering (15 điểm) - BONUS 🌟
 
-**Yêu cầu:** Thêm phân trang và filter cho list assets
+**Yêu cầu:** Thêm phân trang và filter cho list assets (thực hiện trên in-memory list).
 
 ### API Specification
 
@@ -332,15 +331,6 @@ curl http://localhost:8080/health
   }
   ```
 
-### SQL hints:
-
-```sql
-SELECT * FROM assets
-WHERE type = $1 AND status = $2
-ORDER BY created_at DESC
-LIMIT $3 OFFSET $4
-```
-
 **Test:**
 
 ```bash
@@ -358,7 +348,7 @@ curl "http://localhost:8080/assets?page=2&limit=20&type=domain&status=active"
 
 ## Bài 7: Search by Name (10 điểm) - BONUS 🌟
 
-**Yêu cầu:** Tìm kiếm assets theo tên (partial match)
+**Yêu cầu:** Tìm kiếm assets theo tên (partial match) trên in-memory data.
 
 ### API Specification
 
@@ -366,14 +356,6 @@ curl "http://localhost:8080/assets?page=2&limit=20&type=domain&status=active"
 - **Query params:** `q` (search query, required)
 - **Response:** Array of matching assets (max 100)
 - **Behavior:** Case-insensitive, partial match
-
-### SQL hints:
-
-```sql
-SELECT * FROM assets
-WHERE name ILIKE $1
-LIMIT 100
-```
 
 **Test:**
 
@@ -397,8 +379,8 @@ curl "http://localhost:8080/assets/search?q=DOMAIN"
 | Bài 1: Statistics       | 20      | ✅ Bắt buộc |
 | Bài 2: Batch Create     | 25      | ✅ Bắt buộc |
 | Bài 3: Batch Delete     | 20      | ✅ Bắt buộc |
-| Bài 4: Connection Retry | 25      | ✅ Bắt buộc |
-| Bài 5: Health Check     | 15      | ✅ Bắt buộc |
+| Bài 4: Concurrent-safe  | 25      | ✅ Bắt buộc |
+| Bài 5: In-memory Health | 15      | ✅ Bắt buộc |
 | Bài 6: Pagination       | 15      | 🌟 Bonus    |
 | Bài 7: Search           | 10      | 🌟 Bonus    |
 | **Tổng bắt buộc**       | **105** |             |
@@ -408,44 +390,37 @@ curl "http://localhost:8080/assets/search?q=DOMAIN"
 
 ## 💡 Gợi Ý & Tips
 
-### Transaction trong Go:
+### Validate all before write (all or nothing trong memory):
 
 ```go
-tx, err := db.Begin()
-if err != nil {
-    return err
-}
-defer tx.Rollback() // Auto rollback if not committed
-
-// Do operations with tx...
-_, err = tx.Exec(query, args...)
-if err != nil {
-    return err // Rollback via defer
+for _, in := range req.Assets {
+    if err := validateAsset(in); err != nil {
+        return nil, err // Stop here, do not write anything yet
+    }
 }
 
-return tx.Commit() // Success
+created := make([]Asset, 0, len(req.Assets))
+for _, in := range req.Assets {
+    created = append(created, toAsset(in))
+}
+
+if err := storage.BatchCreate(ctx, created); err != nil {
+    return nil, err
+}
 ```
 
-### Dynamic SQL với filters:
+### Filter trong memory:
 
 ```go
-conditions := []string{}
-args := []interface{}{}
-argIndex := 1
-
-if typeFilter != "" {
-    conditions = append(conditions, fmt.Sprintf("type = $%d", argIndex))
-    args = append(args, typeFilter)
-    argIndex++
+func match(a Asset, t, s string) bool {
+    if t != "" && a.Type != t {
+        return false
+    }
+    if s != "" && a.Status != s {
+        return false
+    }
+    return true
 }
-
-whereClause := ""
-if len(conditions) > 0 {
-    whereClause = "WHERE " + strings.Join(conditions, " AND ")
-}
-
-query := fmt.Sprintf("SELECT * FROM assets %s", whereClause)
-rows, err := db.Query(query, args...)
 ```
 
 ### Parse query string IDs:
@@ -460,32 +435,30 @@ ids := strings.Split(idsParam, ",")
 // ids = ["uuid1", "uuid2", "uuid3"]
 ```
 
-### Count query:
+### Concurrency check bằng race detector:
 
-```go
-var count int
-query := "SELECT COUNT(*) FROM assets WHERE type = $1"
-err := db.QueryRow(query, assetType).Scan(&count)
+```bash
+go test ./... -race
 ```
 
 ---
 
 ## 📚 Tài Liệu Tham Khảo
 
-- [PostgreSQL Transactions](https://www.postgresql.org/docs/current/tutorial-transactions.html)
-- [Connection Pooling Best Practices](https://www.alexedwards.net/blog/configuring-sqldb)
-- [SQL Injection Prevention](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html)
+- [Go map and concurrency](https://go.dev/blog/maps)
+- [sync package](https://pkg.go.dev/sync)
+- [Go race detector](https://go.dev/doc/articles/race_detector)
 - [RESTful API Design](https://restfulapi.net/)
 
 ## 🚀 Bonus Challenges
 
-1. **Rate Limiting:** Giới hạn số request/phút từ mỗi IP
-2. **Caching:** Cache list assets trong memory (5 phút)
-3. **Audit Log:** Log mọi CREATE/UPDATE/DELETE vào bảng audit
-4. **Soft Delete:** Thêm `deleted_at` timestamp thay vì xóa hẳn
-5. **Import CSV:** Upload file CSV để tạo nhiều assets
-6. **Export CSV:** Download assets dưới dạng CSV
-7. **Webhooks:** Gọi webhook khi có asset mới được tạo
+1. **Rate Limiting:** Giới hạn số request/phút từ mỗi IP.
+2. **Caching:** Cache kết quả list assets trong memory (5 phút).
+3. **Audit Log:** Log mọi CREATE/UPDATE/DELETE ra file.
+4. **Soft Delete:** Thêm `deleted_at` timestamp thay vì xóa hẳn.
+5. **Import CSV:** Upload file CSV để tạo nhiều assets.
+6. **Export CSV:** Download assets dưới dạng CSV.
+7. **Webhooks:** Gọi webhook khi có asset mới được tạo.
 
 ---
 
