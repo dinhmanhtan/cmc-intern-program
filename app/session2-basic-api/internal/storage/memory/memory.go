@@ -153,6 +153,98 @@ func (m *MemoryStorage) Search(query string) ([]*model.Asset, error) {
 	return assets, nil
 }
 
+// GetStatistics returns asset counts grouped by type and status
+// Thread-safe with read lock
+func (m *MemoryStorage) GetStatistics() (*model.Statistics, error) {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+
+	stats := &model.Statistics{
+		Total:    len(m.data),
+		ByType:   make(map[string]int),
+		ByStatus: make(map[string]int),
+	}
+
+	for _, asset := range m.data {
+		stats.ByType[asset.Type]++
+		stats.ByStatus[asset.Status]++
+	}
+
+	return stats, nil
+}
+
+// Count returns the number of assets matching the given filters
+// Empty string parameters are ignored (match all)
+// Thread-safe with read lock
+func (m *MemoryStorage) Count(assetType, status string) (int, error) {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+
+	// If no filters, return total count
+	if assetType == "" && status == "" {
+		return len(m.data), nil
+	}
+
+	count := 0
+	for _, asset := range m.data {
+		if assetType != "" && asset.Type != assetType {
+			continue
+		}
+		if status != "" && asset.Status != status {
+			continue
+		}
+		count++
+	}
+
+	return count, nil
+}
+
+// BatchCreate inserts multiple assets in an all-or-nothing fashion
+// All assets must already be validated before calling this method
+// Thread-safe with write lock
+func (m *MemoryStorage) BatchCreate(assets []*model.Asset) ([]string, error) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	// Pre-check: ensure no duplicates exist
+	for _, asset := range assets {
+		if _, exists := m.data[asset.ID]; exists {
+			return nil, model.ErrDuplicate
+		}
+	}
+
+	// Insert all
+	ids := make([]string, 0, len(assets))
+	for _, asset := range assets {
+		m.data[asset.ID] = asset
+		ids = append(ids, asset.ID)
+	}
+
+	return ids, nil
+}
+
+// BatchDelete removes multiple assets by their IDs
+// Returns count of deleted and not-found items
+// Thread-safe with write lock
+func (m *MemoryStorage) BatchDelete(ids []string) (int, int, error) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	deleted := 0
+	notFound := 0
+
+	for _, id := range ids {
+		if _, exists := m.data[id]; exists {
+			delete(m.data, id)
+			deleted++
+		} else {
+			notFound++
+		}
+	}
+
+	return deleted, notFound, nil
+}
+
 /*
 🎓 NOTES:
 

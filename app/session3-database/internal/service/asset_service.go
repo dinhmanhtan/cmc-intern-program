@@ -142,6 +142,22 @@ func (s *AssetService) SearchAssets(query string) ([]*model.Asset, error) {
 	return s.storage.Search(query)
 }
 
+// GetStatistics returns aggregated asset statistics
+func (s *AssetService) GetStatistics() (*model.Statistics, error) {
+	return s.storage.GetStatistics()
+}
+
+// CountAssets returns the number of assets matching the given filters
+func (s *AssetService) CountAssets(assetType, status string) (int, error) {
+	if assetType != "" && !model.IsValidType(assetType) {
+		return 0, model.ErrInvalidType
+	}
+	if status != "" && !model.IsValidStatus(status) {
+		return 0, model.ErrInvalidStatus
+	}
+	return s.storage.Count(assetType, status)
+}
+
 /*
 🎓 NOTES:
 

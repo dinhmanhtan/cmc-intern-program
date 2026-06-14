@@ -160,6 +160,42 @@ func (h *AssetHandler) DeleteAsset(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
+// GetStatistics handles GET /assets/stats
+func (h *AssetHandler) GetStatistics(w http.ResponseWriter, r *http.Request) {
+	stats, err := h.service.GetStatistics()
+	if err != nil {
+		RespondError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	RespondJSON(w, http.StatusOK, stats)
+}
+
+// CountAssets handles GET /assets/count
+func (h *AssetHandler) CountAssets(w http.ResponseWriter, r *http.Request) {
+	assetType := r.URL.Query().Get("type")
+	status := r.URL.Query().Get("status")
+
+	count, err := h.service.CountAssets(assetType, status)
+	if err != nil {
+		statusCode := mapErrorToStatus(err)
+		RespondError(w, statusCode, err.Error())
+		return
+	}
+
+	filters := make(map[string]string)
+	if assetType != "" {
+		filters["type"] = assetType
+	}
+	if status != "" {
+		filters["status"] = status
+	}
+
+	RespondJSON(w, http.StatusOK, map[string]interface{}{
+		"count":   count,
+		"filters": filters,
+	})
+}
+
 // mapErrorToStatus maps service layer errors to HTTP status codes
 func mapErrorToStatus(err error) int {
 	switch {

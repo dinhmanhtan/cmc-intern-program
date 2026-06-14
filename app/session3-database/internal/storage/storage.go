@@ -35,6 +35,12 @@ type Storage interface {
 
 	// Search finds assets by partial name match
 	Search(query string) ([]*model.Asset, error)
+
+	// Returns asset counts groups by type and status
+	GetStatistics() (*model.Statistics, error)
+
+	// Count returns the numbers of assets matching the given filters
+	Count(assetType, status string) (int, error)
 }
 
 /*

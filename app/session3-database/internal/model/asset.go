@@ -36,6 +36,12 @@ func IsValidStatus(s string) bool {
 	return s == StatusActive || s == StatusInactive
 }
 
+type Statistics struct {
+	Total    int            `json:"total"`
+	ByType   map[string]int `json:"by_type"`
+	ByStatus map[string]int `json:"by_status"`
+}
+
 /*
 🎓 NOTES:
 

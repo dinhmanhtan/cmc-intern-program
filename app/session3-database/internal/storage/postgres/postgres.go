@@ -283,6 +283,74 @@ func (p *PostgresStorage) Search(query string) ([]*model.Asset, error) {
 	return assets, nil
 }
 
+func (p *PostgresStorage) GetStatistics() (*model.Statistics, error) {
+	stats := &model.Statistics{
+		ByType:   make(map[string]int),
+		ByStatus: make(map[string]int),
+	}
+
+	// total count
+	err := p.db.QueryRow("SELECT COUNT(*) FROM assets").Scan(&stats.Total)
+	if err != nil {
+		return nil, fmt.Errorf("Failed to count assets: %w", err)
+	}
+
+	// count by type
+	rows, err := p.db.Query("SELECT type, COUNT(*) FROM assets GROUP BY type")
+	if err != nil {
+		return nil, fmt.Errorf("Failed to group by type: %w", err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var assetType string
+		var count int
+		if err := rows.Scan(&assetType, &count); err != nil {
+			return nil, fmt.Errorf("Failed to scan type count: %w", err)
+		}
+		stats.ByType[assetType] = count
+	}
+
+	// count by status
+	rows2, err := p.db.Query("SELECT status, COUNT(*) FROM assets GROUP BY status")
+	if err != nil {
+		return nil, fmt.Errorf("Failed to group by status: %w", err)
+	}
+	defer rows2.Close()
+	for rows2.Next() {
+		var status string
+		var count int
+		if err := rows2.Scan(&status, &count); err != nil {
+			return nil, fmt.Errorf("Failed to scan status count: %w", err)
+		}
+		stats.ByStatus[status] = count
+	}
+	return stats, nil
+}
+
+func (p *PostgresStorage) Count(assetType, status string) (int, error) {
+	query := "SELECT COUNT(*) FROM assets WHERE 1=1"
+	var args []interface{}
+	argsCount := 1
+
+	if assetType != "" {
+		query += fmt.Sprintf(" AND type = $%d", argsCount)
+		args = append(args, assetType)
+		argsCount++
+	}
+
+	if status != "" {
+		query += fmt.Sprintf(" AND status = $%d", argsCount)
+		args = append(args, status)
+		argsCount++
+	}
+	var count int
+	err := p.db.QueryRow(query, args...).Scan(&count)
+	if err != nil {
+		return 0, fmt.Errorf("Failed to count assets: %w", err)
+	}
+	return count, nil
+}
+
 /*
 🎓 TEACHING NOTES:
 

@@ -35,6 +35,20 @@ type Storage interface {
 
 	// Search finds assets by partial name match
 	Search(query string) ([]*model.Asset, error)
+
+	// GetStatistics returns asset counts grouped by type and status
+	GetStatistics() (*model.Statistics, error)
+
+	// Count returns the number of assets matching the given filters
+	// Empty string parameters are ignored (match all)
+	Count(assetType, status string) (int, error)
+
+	// BatchCreate inserts multiple assets (all or nothing in memory)
+	BatchCreate(assets []*model.Asset) ([]string, error)
+
+	// BatchDelete removes multiple assets by their IDs
+	// Returns count of deleted and not-found items
+	BatchDelete(ids []string) (deleted int, notFound int, err error)
 }
 
 /*

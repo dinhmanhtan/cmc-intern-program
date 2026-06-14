@@ -30,7 +30,7 @@ func main() {
 	// 3. Initialize Handler Layer (Presentation / HTTP)
 	//    Inject service dependency
 	assetHandler := handler.NewAssetHandler(assetService)
-	healthHandler := handler.NewHealthHandler()
+	healthHandler := handler.NewHealthHandler(assetService)
 	log.Println("✅ Handlers initialized")
 
 	// ============================================
@@ -42,15 +42,29 @@ func main() {
 	// Health check
 	mux.HandleFunc("GET /health", healthHandler.Check)
 
+	// Asset Statistics & Count (must be registered BEFORE /assets/{id})
+	mux.HandleFunc("GET /assets/stats", assetHandler.GetStatistics)   // Bài 1.1
+	mux.HandleFunc("GET /assets/count", assetHandler.CountAssets)     // Bài 1.2
+	mux.HandleFunc("GET /assets/search", assetHandler.SearchAssets)   // Bài 7
+
+	// Batch operations (must be registered BEFORE /assets/{id})
+	mux.HandleFunc("POST /assets/batch", assetHandler.BatchCreateAssets)   // Bài 2
+	mux.HandleFunc("DELETE /assets/batch", assetHandler.BatchDeleteAssets) // Bài 3
+
 	// Asset CRUD operations
 	mux.HandleFunc("POST /assets", assetHandler.CreateAsset)        // Create
-	mux.HandleFunc("GET /assets", assetHandler.ListAssets)          // Read (list with filters)
+	mux.HandleFunc("GET /assets", assetHandler.ListAssets)          // Read (list with pagination)
 	mux.HandleFunc("GET /assets/{id}", assetHandler.GetAsset)       // Read (single)
 	mux.HandleFunc("PUT /assets/{id}", assetHandler.UpdateAsset)    // Update
 	mux.HandleFunc("DELETE /assets/{id}", assetHandler.DeleteAsset) // Delete
 
 	log.Println("✅ Routes registered:")
 	log.Println("   GET    /health")
+	log.Println("   GET    /assets/stats")
+	log.Println("   GET    /assets/count")
+	log.Println("   GET    /assets/search")
+	log.Println("   POST   /assets/batch")
+	log.Println("   DELETE /assets/batch")
 	log.Println("   POST   /assets")
 	log.Println("   GET    /assets")
 	log.Println("   GET    /assets/{id}")

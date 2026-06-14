@@ -24,8 +24,8 @@ func main() {
 	// Database configuration
 	dbHost := getEnv("DB_HOST", "localhost")
 	dbPort := getEnv("DB_PORT", "5432")
-	dbUser := getEnv("DB_USER", "secops")
-	dbPassword := getEnv("DB_PASSWORD", "secops123")
+	dbUser := getEnv("DB_USER", "postgres")
+	dbPassword := getEnv("DB_PASSWORD", "postgres")
 	dbName := getEnv("DB_NAME", "mini_asm")
 	dbSSLMode := getEnv("DB_SSLMODE", "disable")
 
@@ -91,6 +91,10 @@ func main() {
 
 	// Health check
 	mux.HandleFunc("GET /health", healthHandler.Check)
+
+	// Asset Statistics & Count (must be registered BEFORE /assets/{id})
+	mux.HandleFunc("GET /assets/stats", assetHandler.GetStatistics) // Statistics
+	mux.HandleFunc("GET /assets/count", assetHandler.CountAssets)   // Count by filter
 
 	// Asset CRUD operations
 	mux.HandleFunc("POST /assets", assetHandler.CreateAsset)        // Create

@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"errors"
+	"time"
+)
 
 // Asset represents a public-facing resource (domain, IP, or service)
 // This is our core domain entity - no dependencies on other layers
@@ -35,6 +38,73 @@ func IsValidType(t string) bool {
 func IsValidStatus(s string) bool {
 	return s == StatusActive || s == StatusInactive
 }
+
+// Statistics represents aggregated stats about assets
+type Statistics struct {
+	Total    int            `json:"total"`
+	ByType   map[string]int `json:"by_type"`
+	ByStatus map[string]int `json:"by_status"`
+}
+
+// CountResponse represents the response for count endpoint
+type CountResponse struct {
+	Count   int               `json:"count"`
+	Filters map[string]string `json:"filters"`
+}
+
+// PaginatedResponse represents a paginated list response
+type PaginatedResponse struct {
+	Data       []*Asset   `json:"data"`
+	Pagination Pagination `json:"pagination"`
+}
+
+// Pagination holds pagination metadata
+type Pagination struct {
+	Page       int `json:"page"`
+	Limit      int `json:"limit"`
+	Total      int `json:"total"`
+	TotalPages int `json:"total_pages"`
+}
+
+// StorageInfo holds storage information for health check
+type StorageInfo struct {
+	Type       string `json:"type"`
+	AssetCount int    `json:"asset_count"`
+}
+
+// HealthCheckResponse represents the health check response
+type HealthCheckResponse struct {
+	Status          string      `json:"status"`
+	Storage         StorageInfo `json:"storage"`
+	UptimeSeconds   float64     `json:"uptime_seconds"`
+	Timestamp       string      `json:"timestamp"`
+}
+
+// BatchCreateRequest represents the request body for batch creating assets
+type BatchCreateRequest struct {
+	Assets []BatchCreateItem `json:"assets"`
+}
+
+// BatchCreateItem represents a single item in a batch create request
+type BatchCreateItem struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+// BatchCreateResponse represents the response for batch create
+type BatchCreateResponse struct {
+	Created int      `json:"created"`
+	IDs     []string `json:"ids"`
+}
+
+// BatchDeleteResponse represents the response for batch delete
+type BatchDeleteResponse struct {
+	Deleted  int `json:"deleted"`
+	NotFound int `json:"not_found"`
+}
+
+// ErrBatchLimitExceeded indicates too many items in batch request
+var ErrBatchLimitExceeded = errors.New("batch limit exceeded: maximum 100 items per request")
 
 /*
 🎓 NOTES:
