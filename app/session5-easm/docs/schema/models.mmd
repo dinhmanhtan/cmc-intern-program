@@ -1,0 +1,65 @@
+erDiagram
+    ASSET {
+        string id PK
+        string name
+        string type "domain|ip|service"
+        string status "active|inactive"
+        datetime created_at
+        datetime updated_at
+    }
+
+    SCAN_JOB {
+        string id PK
+        string asset_id FK
+        string scan_type "all|subdomain|dns|whois|cert_trans|port|asn|ssl"
+        string status "pending|running|completed|failed|partial"
+        datetime started_at
+        datetime ended_at "nullable"
+        string error
+        int results
+        datetime created_at
+    }
+
+    SUBDOMAIN {
+        string id PK
+        string asset_id FK
+        string scan_job_id FK
+        string name
+        string source
+        bool is_active
+        datetime created_at
+    }
+
+    DNS_RECORD {
+        string id PK
+        string asset_id FK
+        string scan_job_id FK
+        string record_type
+        string name
+        string value
+        int ttl
+        datetime created_at
+    }
+
+    WHOIS_RECORD {
+        string id PK
+        string asset_id FK
+        string scan_job_id FK
+        string registrar
+        datetime created_date "nullable"
+        datetime expiry_date "nullable"
+        string name_servers "JSON array"
+        string status
+        string emails "JSON array"
+        string raw_data
+        datetime created_at
+    }
+
+    ASSET ||--o{ SCAN_JOB : has
+    ASSET ||--o{ SUBDOMAIN : discovers
+    ASSET ||--o{ DNS_RECORD : has
+    ASSET ||--o{ WHOIS_RECORD : has
+
+    SCAN_JOB ||--o{ SUBDOMAIN : produces
+    SCAN_JOB ||--o{ DNS_RECORD : produces
+    SCAN_JOB ||--o{ WHOIS_RECORD : produces
