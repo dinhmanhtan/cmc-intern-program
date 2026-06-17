@@ -2,8 +2,8 @@
 # Lines starting with # are comments
 
 # Web servers
-www
-www1
+www.google.com
+www1.google.com
 www2
 www3
 web
