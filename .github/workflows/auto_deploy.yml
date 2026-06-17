@@ -1,0 +1,30 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy to VM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/ubuntu/cmc-intern-program/app/session7-deployment
+            git pull origin main
+            docker-compose down
+            docker-compose up -d --build
+            docker-compose ps
+
+      - name: Health check
+        run: |
+          sleep 30
+          curl -f https://easm.dnsgen.online || exit 1
