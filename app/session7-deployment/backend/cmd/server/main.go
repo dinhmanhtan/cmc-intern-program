@@ -15,7 +15,7 @@ import (
 
 func main() {
 	log.Println("🚀 Starting Mini ASM Server (Session 5 - EASM Scanning)...")
-
+	log.Println("test cicd")
 	// ============================================
 	// CONFIGURATION - Load from environment
 	// ============================================
