@@ -24,9 +24,9 @@ jobs:
           script: |
             cd /home/ubuntu/cmc-intern-program/app/session7-deployment
             git pull origin main
-            docker-compose down
-            docker-compose up -d --build
-            docker-compose ps
+            docker compose down
+            docker compose up -d --build
+            docker compose ps
 
       - name: Health check
         run: |
