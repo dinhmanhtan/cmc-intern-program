@@ -1,20 +1,21 @@
 name: Deploy to Production
 
 on:
-  pull_request:
-    branches:
-      - main
-    types:
-      - closed
+  workflow_dispatch:
 
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true
+    if: >-
+      github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://easm.dnsgen.online
+    concurrency:
+      group: production-deploy
+      cancel-in-progress: false
 
     steps:
-      - uses: actions/checkout@v4
-
       - name: Deploy to server via SSH
         uses: appleboy/ssh-action@master
         with:
@@ -30,5 +31,13 @@ jobs:
 
       - name: Health check
         run: |
-          sleep 30
-          curl -f https://easm.dnsgen.online || exit 1
+          for i in {1..10}; do
+            if curl -fsS https://easm.dnsgen.online > /dev/null; then
+              echo "Health check passed"
+              exit 0
+            fi
+            echo "Waiting for app to become healthy... ($i/10)"
+            sleep 10
+          done
+          echo "Health check failed"
+          exit 1
