@@ -15,7 +15,7 @@ function App() {
             <div className="nav-content">
               <div className="nav-brand">
                 <Shield className="nav-icon" />
-                <span>EASM Platform</span>
+                <span>EASM Platform Test 1</span>
               </div>
               <div className="nav-links">
                 <Link to="/" className="nav-link">
