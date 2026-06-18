@@ -3,17 +3,13 @@ name: Session 7 - Build and Test
 on:
   pull_request:
     branches:
-      - day3
       - main
-    paths:
-      - "app/session7-deployment/backend/**"
-      - ".github/workflows/session7-deployment.yml"
   push:
     branches:
-      - day3
       - main
     paths:
       - "app/session7-deployment/backend/**"
+      - "app/session7-deployment/frontend/**"
       - ".github/workflows/session7-deployment.yml"
 
 jobs:
