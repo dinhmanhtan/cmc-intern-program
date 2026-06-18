@@ -1,8 +1,8 @@
-# 📝 Bài Tập Về Nhà - Sessions 5-7 (Day 3)
+# 📝 Bài Tập Về Nhà - Sessions 3-7 (Day 2-3)
 
-**Deadline:** Trước ngày thứ 7 tuần sau
-**Cách nộp:** Push lên Git repository cá nhân tại branch homework. Mời dinhmanhtan (dmtangtnd@gmail.com) vào project. Tiếp tục code ở nhánh homework. Tạo pull request từ branch homework vào main. Set reviewer là dinhmanhtan  
-**Note**: Project có thể viết bằng ngôn ngữ khác không bắt buộc phải dùng Go. Nếu sử dụng ngôn ngữ khác cần mô tả cách cài đặt và chạy project
+**Deadline:** Trước ngày thứ 2 tuần sau
+**Cách nộp:** Checkout từ nhánh homework lần trước với nhánh mới là homework-final. Push lên Git repository cá nhân. Mời dinhmanhtan (dmtangtnd@gmail.com) vào project. Tạo pull request từ branch homework-final vào main. Set reviewer là dinhmanhtan  
+**Note**: Project có thể viết bằng ngôn ngữ khác không bắt buộc phải dùng Go. Nếu sử dụng ngôn ngữ khác cần mô tả cách cài đặt và chạy project. Các phần Bonus ko bắt buộc phải hoàn thành.
 
 ---
 
@@ -10,15 +10,16 @@
 
 - [Yêu Cầu Chung](#yêu-cầu-chung)
 - [📤 Nộp Bài](#-nộp-bài)
-- [Bài 1: Mở rộng Scan API (25 điểm)](#bài-1-mở-rộng-scan-api-25-điểm)
-- [Bài 2: Viết Unit Tests (25 điểm)](#bài-2-viết-unit-tests-25-điểm)
-- [Bài 3: Tích hợp Frontend (20 điểm)](#bài-3-tích-hợp-frontend-20-điểm)
-- [Bài 4: CI/CD với GitHub Actions (25 điểm)](#bài-4-cicd-với-github-actions-25-điểm)
-- [Bài 5: Deploy với Docker Compose (15 điểm)](#bài-5-deploy-với-docker-compose-15-điểm)
-- [Bài 6: Tính năng EASM mới (15 điểm) - BONUS 🌟](#bài-6-tính-năng-easm-mới-15-điểm---bonus-)
-- [Bài 7: Deploy lên Cloud VM (20 điểm) - BONUS 🌟](#bài-7-deploy-lên-cloud-vm-20-điểm---bonus-)
-- [Bài 8: Domain & TLS/HTTPS (15 điểm) - BONUS 🌟](#bài-8-domain--tlshttps-15-điểm---bonus-)
-- [Bài 9: Auto Deploy on Merge (15 điểm) - BONUS 🌟](#bài-9-auto-deploy-on-merge-15-điểm---bonus-)
+- [Bài 1: Migrate sang Database (30 điểm)](#bài-1-migrate-sang-database-30-điểm)
+- [Bài 2: Mở rộng Scan API (25 điểm)](#bài-2-mở-rộng-scan-api-25-điểm)
+- [Bài 3: Viết Unit Tests (20 điểm)](#bài-3-viết-unit-tests-20-điểm)
+- [Bài 4: Tích hợp Frontend (20 điểm)](#bài-4-tích-hợp-frontend-20-điểm)
+- [Bài 5: CI/CD với GitHub Actions (25 điểm) - BONUS 🌟](#bài-5-cicd-với-github-actions-25-điểm---bonus-)
+- [Bài 6: Deploy với Docker Compose (15 điểm) - BONUS 🌟](#bài-6-deploy-với-docker-compose-15-điểm---bonus-)
+- [Bài 7: Tính năng EASM mới (15 điểm) - BONUS 🌟](#bài-7-tính-năng-easm-mới-15-điểm---bonus-)
+- [Bài 8: Deploy lên Cloud VM (20 điểm) - BONUS 🌟](#bài-8-deploy-lên-cloud-vm-20-điểm---bonus-)
+- [Bài 9: Domain & TLS/HTTPS (15 điểm) - BONUS 🌟](#bài-9-domain--tlshttps-15-điểm---bonus-)
+- [Bài 10: Auto Deploy on Merge (15 điểm) - BONUS 🌟](#bài-10-auto-deploy-on-merge-15-điểm---bonus-)
 - [📊 Chấm Điểm](#-chấm-điểm)
 - [💡 Gợi Ý & Tips](#-gợi-ý--tips)
 - [📚 Tài Liệu Tham Khảo](#-tài-liệu-tham-khảo)
@@ -50,15 +51,16 @@
 
 ## Các bài đã hoàn thành
 
-- [x] Bài 1: Mở rộng Scan API
-- [x] Bài 2: Viết Unit Tests
-- [x] Bài 3: Tích hợp Frontend
-- [x] Bài 4: CI/CD với GitHub Actions
-- [x] Bài 5: Deploy với Docker Compose
-- [ ] Bài 6: Tính năng EASM mới (Bonus)
-- [ ] Bài 7: Deploy lên Cloud VM (Bonus)
-- [ ] Bài 8: Domain & TLS/HTTPS (Bonus)
-- [ ] Bài 9: Auto Deploy on Merge (Bonus)
+- [x] Bài 1: Migrate sang Database
+- [x] Bài 2: Mở rộng Scan API
+- [x] Bài 3: Viết Unit Tests
+- [x] Bài 4: Tích hợp Frontend
+- [ ] Bài 5: CI/CD với GitHub Actions (Bonus)
+- [ ] Bài 6: Deploy với Docker Compose (Bonus)
+- [ ] Bài 7: Tính năng EASM mới (Bonus)
+- [ ] Bài 8: Deploy lên Cloud VM (Bonus)
+- [ ] Bài 9: Domain & TLS/HTTPS (Bonus)
+- [ ] Bài 10: Auto Deploy on Merge (Bonus)
 
 ## Link Repository
 
@@ -74,9 +76,257 @@ File này đặt trong thư mục [homeworks/submissions/day3](../submissions/da
 
 ---
 
-## Bài 1: Mở rộng Scan API (25 điểm)
+## Bài 1: Migrate sang Database (30 điểm)
 
-**Yêu cầu:** Thêm các loại scan mới cho hệ thống EASM
+**Yêu cầu:** Chuyển đổi storage layer từ in-memory sang SQL database.
+
+> **Lưu ý:** Bạn có thể chọn bất kỳ SQL database nào: **PostgreSQL**, **MySQL**, **SQLite**, v.v. Không bắt buộc phải dùng PostgreSQL.
+
+### Mục tiêu
+
+Project hiện tại đang dùng in-memory storage — dữ liệu mất khi restart server. Bài này yêu cầu migrate sang SQL database để dữ liệu được lưu trữ bền vững.
+
+### 1.1 Setup Database
+
+Chọn một trong các option sau:
+
+**Option A — PostgreSQL với Docker Compose (khuyến nghị cho production-like):**
+
+```yaml
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mini_asm
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+```
+
+**Option B — MySQL với Docker Compose:**
+
+```yaml
+services:
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mini_asm
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+```
+
+**Option C — SQLite (đơn giản nhất, không cần Docker):**
+
+```go
+// Chỉ cần 1 file — không cần server DB
+db, err := sql.Open("sqlite3", "./mini_asm.db")
+```
+
+Dùng driver `github.com/mattn/go-sqlite3` hoặc `modernc.org/sqlite` (pure Go, không cần CGO).
+
+### 1.2 Viết Database Migrations
+
+Tạo thư mục `migrations/` với các file SQL:
+
+`migrations/001_create_assets.up.sql`:
+
+```sql
+CREATE TABLE IF NOT EXISTS assets (
+    id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name       VARCHAR(255) NOT NULL,
+    type       VARCHAR(50)  NOT NULL,
+    status     VARCHAR(50)  NOT NULL DEFAULT 'active',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX idx_assets_type   ON assets(type);
+CREATE INDEX idx_assets_status ON assets(status);
+```
+
+`migrations/001_create_assets.down.sql`:
+
+```sql
+DROP TABLE IF EXISTS assets;
+```
+
+### 1.3 Implement Database Storage Layer
+
+Thay thế in-memory storage bằng PostgreSQL implementation:
+
+```go
+type postgresAssetStorage struct {
+    db *sql.DB
+}
+
+func NewPostgresAssetStorage(db *sql.DB) AssetStorage {
+    return &postgresAssetStorage{db: db}
+}
+
+func (s *postgresAssetStorage) Create(ctx context.Context, asset *model.Asset) error {
+    query := `
+        INSERT INTO assets (id, name, type, status, created_at, updated_at)
+        VALUES ($1, $2, $3, $4, $5, $6)
+    `
+    _, err := s.db.ExecContext(ctx, query,
+        asset.ID, asset.Name, asset.Type, asset.Status,
+        asset.CreatedAt, asset.UpdatedAt,
+    )
+    return err
+}
+
+func (s *postgresAssetStorage) GetByID(ctx context.Context, id string) (*model.Asset, error) {
+    query := `SELECT id, name, type, status, created_at, updated_at FROM assets WHERE id = $1`
+    row := s.db.QueryRowContext(ctx, query, id)
+    var asset model.Asset
+    err := row.Scan(&asset.ID, &asset.Name, &asset.Type, &asset.Status,
+        &asset.CreatedAt, &asset.UpdatedAt)
+    if err == sql.ErrNoRows {
+        return nil, ErrNotFound
+    }
+    return &asset, err
+}
+
+func (s *postgresAssetStorage) List(ctx context.Context) ([]*model.Asset, error) {
+    query := `SELECT id, name, type, status, created_at, updated_at FROM assets ORDER BY created_at DESC`
+    rows, err := s.db.QueryContext(ctx, query)
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close()
+
+    var assets []*model.Asset
+    for rows.Next() {
+        var asset model.Asset
+        if err := rows.Scan(&asset.ID, &asset.Name, &asset.Type, &asset.Status,
+            &asset.CreatedAt, &asset.UpdatedAt); err != nil {
+            return nil, err
+        }
+        assets = append(assets, &asset)
+    }
+    return assets, rows.Err()
+}
+
+func (s *postgresAssetStorage) Delete(ctx context.Context, id string) error {
+    result, err := s.db.ExecContext(ctx, `DELETE FROM assets WHERE id = $1`, id)
+    if err != nil {
+        return err
+    }
+    rows, _ := result.RowsAffected()
+    if rows == 0 {
+        return ErrNotFound
+    }
+    return nil
+}
+```
+
+### 1.4 Database Configuration
+
+Đọc connection info từ environment variables:
+
+```go
+type DBConfig struct {
+    Host     string
+    Port     string
+    User     string
+    Password string
+    DBName   string
+}
+
+func NewDBConfig() DBConfig {
+    return DBConfig{
+        Host:     getEnv("DB_HOST", "localhost"),
+        Port:     getEnv("DB_PORT", "5432"),
+        User:     getEnv("DB_USER", "postgres"),
+        Password: getEnv("DB_PASSWORD", "postgres"),
+        DBName:   getEnv("DB_NAME", "mini_asm"),
+    }
+}
+
+func (c DBConfig) DSN() string {
+    return fmt.Sprintf(
+        "host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+        c.Host, c.Port, c.User, c.Password, c.DBName,
+    )
+}
+```
+
+`.env`:
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=mini_asm
+```
+
+### Yêu cầu kỹ thuật:
+
+- Dùng `database/sql` với driver phù hợp với DB đã chọn (ví dụ: `lib/pq`/`pgx` cho PostgreSQL, `go-sql-driver/mysql` cho MySQL, `go-sqlite3`/`modernc.org/sqlite` cho SQLite), có thể dùng `sqlx`
+- Có migration schema (file SQL hoặc chạy inline khi server start)
+- Xử lý lỗi kết nối DB (retry hoặc exit gracefully)
+- Tất cả CRUD operations phải hoạt động với DB thay vì in-memory
+- Mô tả trong README cách cài đặt và chạy với DB đã chọn
+
+**Test:**
+
+```bash
+# Ví dụ với PostgreSQL:
+# 1. Start DB
+docker compose up -d db
+
+# 2. Run migrations (ví dụ dùng golang-migrate)
+migrate -path migrations \
+  -database "postgres://postgres:postgres@localhost:5432/mini_asm?sslmode=disable" up
+
+# Ví dụ với SQLite: không cần bước 1-2, chỉ cần start server
+# DB file sẽ tự động được tạo
+
+# 3. Start server
+go run ./cmd/server
+
+# 4. Tạo asset và verify data persist
+curl -X POST http://localhost:8080/assets \
+  -H "Content-Type: application/json" \
+  -d '{"name":"example.com","type":"domain"}'
+
+curl http://localhost:8080/assets
+
+# 5. Restart server — data phải vẫn còn
+# Ctrl+C → go run ./cmd/server → curl lại
+```
+
+**Screenshot requirements:**
+
+- `docker compose ps` showing db service running
+- API response với data stored in DB
+- Data vẫn tồn tại sau khi restart server (before/after screenshots)
+
+---
+
+## Bài 2: Mở rộng Scan API (25 điểm)
+
+**Yêu cầu:** Thêm một hoặc nhiều các loại scan mới cho hệ thống EASM. MỖi loại thêm được bonus 5 điểm.
 
 ### Existing Scan Types (đã có sẵn)
 
@@ -272,7 +522,7 @@ Mở rộng scan cho IP assets với thông tin geolocation và ASN.
 - KHÔNG scan hệ thống bên ngoài mà không có permission
 - Implement safety check trong code để từ chối scan public IPs
 
-### 1.3 SSL/TLS Certificate Scan - (Bonus) ⚠️
+### 1.3 SSL/TLS Certificate Scan ⚠️
 
 - **Endpoint:** `POST /assets/{id}/scan`
 - **Request body:**
@@ -329,7 +579,7 @@ Mở rộng scan cho IP assets với thông tin geolocation và ASN.
 }
 ```
 
-### 1.4 Technology Detection Scan - (Bonus)
+### 1.4 Technology Detection Scan
 
 - **Endpoint:** `POST /assets/{id}/scan`
 - **Request body:**
@@ -492,11 +742,11 @@ curl -s "http://localhost:8080/assets/$DOMAIN_ASSET/scans" | jq
 
 ---
 
-## Bài 2: Viết Unit Tests (25 điểm)
+## Bài 3: Viết Unit Tests (20 điểm)
 
-**Yêu cầu:** Viết comprehensive unit tests cho application
+**Yêu cầu:** Viết unit tests cho application
 
-### 2.1 Model Tests
+### 3.1 Model Tests
 
 Tạo file `internal/model/asset_test.go`:
 
@@ -528,7 +778,9 @@ func TestAssetValidation(t *testing.T) {
 }
 ```
 
-### 2.2 Handler Tests (Bonus)
+### 3.2 Handler Tests (Bonus 🌟)
+
+Sử dụng mock service để test handler độc lập:
 
 Tạo file `internal/handler/asset_handler_test.go`:
 
@@ -554,7 +806,9 @@ func TestCreateAssetHandler(t *testing.T) {
 }
 ```
 
-### 2.3 Service Tests (Bonus)
+### 3.3 Service Tests (Bonus 🌟)
+
+Sử dụng mock storage để test service logic:
 
 Tạo file `internal/service/asset_service_test.go`:
 
@@ -568,7 +822,7 @@ func TestAssetService_Create(t *testing.T) {
 }
 ```
 
-### 2.4 Scanner Tests
+### 3.4 Scanner Tests
 
 Tạo tests cho mỗi scanner type:
 
@@ -585,9 +839,9 @@ func TestDNSScanner_Scan(t *testing.T) {
 
 ### Yêu cầu kỹ thuật:
 
-- Bắt buộc viết unit test cho 2.1,2.4
-- Phần 2.2,2.3 sẽ có điểm bonus nếu thực hiện
-- Coverage test lớn sẽ có thêm bonus điểm
+- **Bắt buộc:** Viết unit test cho **3.1** (model validation) và **3.4** (scanner) — không cần mock
+- **Bonus:** Phần **3.2** và **3.3** sử dụng mock → được cộng điểm bonus
+- Coverage cao sẽ được thêm bonus điểm
 
 **Commands:**
 
@@ -611,7 +865,7 @@ go test -bench=. ./...
 
 ---
 
-## Bài 3: Tích hợp Frontend (20 điểm)
+## Bài 4: Tích hợp Frontend (20 điểm)
 
 **Yêu cầu:** Kết nối backend API với frontend (có thể sử dụng frontend có sẵn tại session7 hoặc tự build)
 
@@ -681,7 +935,7 @@ npm run dev
 
 ---
 
-## Bài 4: CI/CD với GitHub Actions (25 điểm)
+## Bài 5: CI/CD với GitHub Actions (25 điểm) - BONUS 🌟
 
 **Yêu cầu:** Thiết lập CI/CD pipeline với các job bảo mật. Có thể chọn thêm một job bảo mật bất kỳ
 
@@ -735,7 +989,7 @@ Tạo pull request vào main
 
 ---
 
-## Bài 5: Deploy với Docker Compose (15 điểm)
+## Bài 6: Deploy với Docker Compose (15 điểm) - BONUS 🌟
 
 **Yêu cầu:** Deploy full application stack bằng Docker Compose
 
@@ -747,7 +1001,7 @@ Tạo pull request vào main
 
 ---
 
-## Bài 6: Tính năng EASM mới (15 điểm) - BONUS 🌟
+## Bài 7: Tính năng EASM mới (15 điểm) - BONUS 🌟
 
 **Yêu cầu:** Implement thêm tính năng nâng cao cho EASM
 
@@ -773,7 +1027,7 @@ So sánh kết quả scan theo thời gian:
 
 Export scan results dạng PDF/CSV:
 
-## Bài 7: Deploy lên Cloud VM (20 điểm) - BONUS 🌟
+## Bài 8: Deploy lên Cloud VM (20 điểm) - BONUS 🌟
 
 **Yêu cầu:** Deploy application lên cloud VM thật
 
@@ -840,7 +1094,7 @@ curl http://your-vm-ip:8080/health
 
 ---
 
-## Bài 8: Domain & TLS/HTTPS (15 điểm) - BONUS 🌟
+## Bài 9: Domain & TLS/HTTPS (15 điểm) - BONUS 🌟
 
 **Yêu cầu:** Gắn domain name và cài đặt SSL certificate. Có thể tự mua domain, hoặc nếu cần subdomain liên hệ dinhmanhtan
 
@@ -943,9 +1197,9 @@ openssl s_client -connect yourdomain.com:443 -servername yourdomain.com
 
 ---
 
-## Bài 9: Auto Deploy on Merge (15 điểm) - BONUS 🌟
+## Bài 10: Auto Deploy on Merge (15 điểm) - BONUS 🌟
 
-**Yêu cầu:** CI/CD tự động deploy mỗi lần merge vào main
+**Yêu cầu:** Tạo nhánh deploy và test trên nhánh này. CI/CD tự động deploy lên server mỗi lần khi merge thành công vào nhánh deploy
 
 ### 9.1 GitHub Actions Workflow
 
@@ -954,7 +1208,7 @@ name: Deploy to Production
 
 on:
   push:
-    branches: [main]
+    branches: [deploy]
 
 jobs:
   deploy:
@@ -972,9 +1226,9 @@ jobs:
           script: |
             cd /path/to/your/app
             git pull origin main
-            docker-compose down
-            docker-compose up -d --build
-            docker-compose ps
+            docker compose down
+            docker compose up -d --build
+            docker compose ps
 
       - name: Health check
         run: |
@@ -1062,19 +1316,20 @@ git push origin test-deploy
 
 ## 📊 Chấm Điểm
 
-| Bài Tập                     | Điểm    | Bắt Buộc    |
-| --------------------------- | ------- | ----------- |
-| Bài 1: Mở rộng Scan API     | 25      | ✅ Bắt buộc |
-| Bài 2: Viết Unit Tests      | 25      | ✅ Bắt buộc |
-| Bài 3: Tích hợp Frontend    | 20      | ✅ Bắt buộc |
-| Bài 4: CI/CD GitHub Actions | 25      | ✅ Bắt buộc |
-| Bài 5: Deploy Docker        | 15      | ✅ Bắt buộc |
-| Bài 6: Tính năng EASM mới   | 15      | 🌟 Bonus    |
-| Bài 7: Deploy Cloud VM      | 20      | 🌟 Bonus    |
-| Bài 8: Domain & TLS         | 15      | 🌟 Bonus    |
-| Bài 9: Auto Deploy          | 15      | 🌟 Bonus    |
-| **Tổng bắt buộc**           | **110** |             |
-| **Tổng có bonus**           | **175** |             |
+| Bài Tập                      | Điểm    | Bắt Buộc    |
+| ---------------------------- | ------- | ----------- |
+| Bài 1: Migrate sang Database | 30      | ✅ Bắt buộc |
+| Bài 2: Mở rộng Scan API      | 25      | ✅ Bắt buộc |
+| Bài 3: Viết Unit Tests       | 20      | ✅ Bắt buộc |
+| Bài 4: Tích hợp Frontend     | 20      | ✅ Bắt buộc |
+| Bài 5: CI/CD GitHub Actions  | 25      | 🌟 Bonus    |
+| Bài 6: Deploy Docker Compose | 15      | 🌟 Bonus    |
+| Bài 7: Tính năng EASM mới    | 15      | 🌟 Bonus    |
+| Bài 8: Deploy Cloud VM       | 20      | 🌟 Bonus    |
+| Bài 9: Domain & TLS          | 15      | 🌟 Bonus    |
+| Bài 10: Auto Deploy          | 15      | 🌟 Bonus    |
+| **Tổng bắt buộc**            | **95**  |             |
+| **Tổng có bonus**            | **200** |             |
 
 ---
 
